@@ -13,16 +13,6 @@ MainWindow::MainWindow(QWidget* parent) :
 {
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
     ui->setupUi(this);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-void MainWindow::on_StartButton_clicked()
-{
-    ui->LogEditor->append("파싱 시작");
 
     //Parser 초기화
     Parser = QSharedPointer<laskdjlaskdj12::HtmlRankParser>::create("https://www.daum.net");
@@ -37,9 +27,20 @@ void MainWindow::on_StartButton_clicked()
     ParserThread->start();
 
     //타이머 초기화
-    unsigned int LoopTime = ui->LoopTimeEditor->text().toInt();
+    LoopTime = ui->LoopTimeEditor->text().toInt();
     ParseLoopTime = QSharedPointer<QTimer>::create();
     connect(ParseLoopTime.data(), SIGNAL(timeout()), this, SLOT(on_Parse_timer_loop()));
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_StartButton_clicked()
+{
+    ui->LogEditor->append("파싱 시작");
+
     ParseLoopTime->start(LoopTime);
 }
 
@@ -52,7 +53,6 @@ void MainWindow::on_StopButton_clicked()
     }
 
     ParseLoopTime->stop();
-    disconnect(ParseLoopTime.data(), SIGNAL(timeout()), this, SLOT(on_Parse_timer_loop()));
 }
 
 void MainWindow::on_Parse_timer_loop()

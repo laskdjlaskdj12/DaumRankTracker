@@ -37,6 +37,7 @@ public:
     QSharedPointer<laskdjlaskdj12::HtmlRankParser> Parser;
     QSharedPointer<QThread> ParserThread;
     QSharedPointer<QTimer> ParseLoopTime;
+    unsigned int LoopTime;
 };
 
 #endif // MAINWINDOW_H
